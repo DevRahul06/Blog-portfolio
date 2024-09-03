@@ -70,7 +70,7 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 
 // Generate JSON Web Token
 
-userSchema.methods.generateJWT = function () {
+userSchema.methods.generateJsonWebToken = function () {
   return jwt.sign(
     {
       id: this._id,
