@@ -85,3 +85,13 @@ export const login = catchAsyncErrors(async (req, res, next) => {
     }
     generateToken(user, "Login Successfully!", 200, res);
   });
+
+export const logout = catchAsyncErrors(async (req,res,next) =>{
+  res.status(200).cookie("token","",{
+    expries: new Date(Date.now()),
+    httpOnly: true,
+  }).json({
+    success: true,
+    message: "Logged Out Successfully!"  // User will not be able to access protected routes after logout.
+  })
+});
