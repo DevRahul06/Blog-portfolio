@@ -67,31 +67,105 @@ export const register = catchAsyncErrors(async (req, res, next) => {
       url: cloudinaryResponseForResume.secure_url, // Set your cloudinary secure_url here
     },
   });
-  generateToken(user,"User Registed successfully",201, res)
+  generateToken(user, "User Registed successfully", 201, res);
 });
 
 export const login = catchAsyncErrors(async (req, res, next) => {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return next(new ErrorHandler("Provide Email And Password!"));
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return next(new ErrorHandler("Provide Email And Password!"));
+  }
+  const user = await User.findOne({ email }).select("+password");
+  if (!user) {
+    return next(new ErrorHandler("Invalid Email Or Password!"));
+  }
+  const isPasswordMatched = await user.comparePassword(password);
+  if (!isPasswordMatched) {
+    return next(new ErrorHandler("Invalid Email Or Password"));
+  }
+  generateToken(user, "Login Successfully!", 200, res);
+});
+
+export const logout = catchAsyncErrors(async (req, res, next) => {
+  res
+    .status(200)
+    .cookie("token", "", {
+      expries: new Date(Date.now()),
+      httpOnly: true,
+    })
+    .json({
+      success: true,
+      message: "Logged Out Successfully!", // User will not be able to access protected routes after logout.
+    });
+});
+
+export const getUser = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
+export const userupdate = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    fullName: req.body.fullName,
+    email: req.body.email,
+    phone: req.body.phone,
+    aboutMe: req.body.aboutMe,
+    portfolioURL: req.body.portfolioURL,
+    instagramURL: req.body.instagramURL,
+    twitterURL: req.body.twitterURL,
+    facebookURL: req.body.facebookURL,
+    linkedInURL: req.body.linkedInURL,
+  };
+  if (req.files && req.files.avatar) {
+    const avatar = req.files.avatar;
+    const user = await User.findById(req.user.id);
+    const profileImageId = user.avatar.public_id;
+    await cloudinary.uploader.destroy(profileImageId);
+    const newProfileImage = await cloudinary.uploader.upload(
+      avatar.tempFilePath,
+      {
+        folder: "PORTFOLIO AVATAR",
+      }
+    );
+    newUserData.avatar = {
+      public_id: newProfileImage.public_id,
+      url: newProfileImage.secure_url,
+    };
+  }
+
+  if (req.files && req.files.resume) {
+    const resume = req.files.resume;
+    const user = await User.findById(req.user.id);
+    const resumeFileId = user.resume.public_id;
+    if (resumeFileId) {
+      await cloudinary.uploader.destroy(resumeFileId);
     }
-    const user = await User.findOne({ email }).select("+password");
-    if (!user) {
-      return next(new ErrorHandler("Invalid Email Or Password!"));
-    }
-    const isPasswordMatched = await user.comparePassword(password);
-    if (!isPasswordMatched) {
-      return next(new ErrorHandler("Invalid Email Or Password"));
-    }
-    generateToken(user, "Login Successfully!", 200, res);
+    const newResume = await cloudinary.uploader.upload(resume.tempFilePath, {
+      folder: "PORTFOLIO RESUME",
+    });
+    newUserData.resume = {
+      public_id: newResume.public_id,
+      url: newResume.secure_url,
+    };
+  }
+
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData,{
+    new: true,
+    runValidators: true,
+    useBigInt64: true,
   });
 
-export const logout = catchAsyncErrors(async (req,res,next) =>{
-  res.status(200).cookie("token","",{
-    expries: new Date(Date.now()),
-    httpOnly: true,
-  }).json({
+  res.status(200).json({
     success: true,
-    message: "Logged Out Successfully!"  // User will not be able to access protected routes after logout.
+    user,
+    message: "Profile updated successfully",
   })
+
+
 });
