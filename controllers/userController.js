@@ -155,7 +155,7 @@ export const userupdate = catchAsyncErrors(async (req, res, next) => {
     };
   }
 
-  const user = await User.findByIdAndUpdate(req.user.id, newUserData,{
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
     useBigInt64: true,
@@ -165,6 +165,32 @@ export const userupdate = catchAsyncErrors(async (req, res, next) => {
     success: true,
     user,
     message: "Profile updated successfully",
+  });
+});
+
+export const updatePassword = catchAsyncErrors(async (req, res, next) => {
+  const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+  if (!currentPassword || !newPassword || !confirmNewPassword) {
+    return next(new ErrorHandler("Please provide all required fields", 400));
+  }
+
+  const user = await User.findById(req.user.id).select("+password");
+  const isPasswordMatched = await user.comparePassword(currentPassword);
+  if (!isPasswordMatched) {
+    return next(new ErrorHandler("Current Password is incorrect", 401));
+  }
+  if (newPassword !== confirmNewPassword) {
+    return next(
+      new ErrorHandler("New Password and Confirm Password does not match", 400)
+    );
+  }
+  user.password = newPassword;
+
+  await user.save();
+  res.status(200).json({
+    success: true,
+    message: "Password updated successfully",
   })
 
 
