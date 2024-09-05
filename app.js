@@ -9,6 +9,7 @@ import {errorMiddleware} from "./middlewares/erros.js"
 import messageRouter from "./router/messageRouts.js"
 import userRouter from "./router/userRouts.js"
 import timelineRoute from "./router/timelineRoute.js"
+import toolsApplications from "./router/ToolsApplicationRoute.js"
 
 
 const app = express();
@@ -38,6 +39,7 @@ app.use(
 app.use("/api/v1/message", messageRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/timeline", timelineRoute);
+app.use("/api/v1/toolapplication", toolsApplications);
 
 
 
