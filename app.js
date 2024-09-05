@@ -8,6 +8,8 @@ import dbConnection from "./database/dbConnection.js";
 import {errorMiddleware} from "./middlewares/erros.js"
 import messageRouter from "./router/messageRouts.js"
 import userRouter from "./router/userRouts.js"
+import timelineRoute from "./router/timelineRoute.js"
+
 
 const app = express();
 dotenv.config({ path: "./config/config.env" });
@@ -35,6 +37,8 @@ app.use(
 
 app.use("/api/v1/message", messageRouter);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/timeline", timelineRoute);
+
 
 
 dbConnection();
