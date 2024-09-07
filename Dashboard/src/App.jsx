@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
@@ -11,8 +11,19 @@ import ViewBlog from "./pages/ViewBlog";
 import UpdateBlog from "./pages/UpdateBlog";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from "react-redux";
+import { getUser } from "./store/slices/userSlice";
 
 export default function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() =>{
+
+    dispatch(getUser())
+
+  },[])
+
   return (
     <Router>
       <Routes>
