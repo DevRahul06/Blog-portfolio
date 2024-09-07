@@ -11,6 +11,7 @@ import userRouter from "./router/userRouts.js";
 import timelineRoute from "./router/timelineRoute.js";
 import toolsApplications from "./router/ToolsApplicationRoute.js";
 import skillsRoute from "./router/skillsRoute.js";
+import blogRoute from "./router/blogRouts.js";
 
 const app = express();
 dotenv.config({ path: "./config/config.env" });
@@ -41,6 +42,8 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/timeline", timelineRoute);
 app.use("/api/v1/toolapplication", toolsApplications);
 app.use("/api/v1/skills", skillsRoute);
+app.use("/api/v1/blog", blogRoute);
+
 
 dbConnection();
 app.use(errorMiddleware);
