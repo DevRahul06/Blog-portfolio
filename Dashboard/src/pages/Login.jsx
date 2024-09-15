@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAllUserErrors, login } from "@/store/slices/userSlice";
+import LoadingButton from "./sub-componets/LoadingButton";
 
 export const description =
   "A login page with two columns. The first column has the login form with email and password. There's a Forgot your passwork link and a link to sign up if you do not have an account. The second column has a cover image.";
@@ -71,9 +72,14 @@ const Login = () => {
                 required
               />
             </div>
-            <Button type="submit" className="w-full" onClick={handleLogin}>
-              Login
-            </Button>
+
+            {loading ? (
+              <LoadingButton content={'Login'} />
+            ) : (
+              <Button type="submit" className="w-full" onClick={handleLogin}>
+                Login
+              </Button>
+            )}
           </div>
         </div>
       </div>
