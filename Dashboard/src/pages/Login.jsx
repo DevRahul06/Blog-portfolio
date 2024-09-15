@@ -59,7 +59,7 @@ const Login = () => {
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
                 <Link
-                  to={"/password/forget"}
+                  to="/password/forgot"
                   className="ml-auto inline-block text-sm underline"
                 >
                   Forgot your password?
