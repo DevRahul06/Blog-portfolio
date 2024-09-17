@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { getUser } from "./store/slices/userSlice";
 
 import "./App.css"
+import { getAllMessages } from "./store/slices/messageSlice";
 
 export default function App() {
 
@@ -23,6 +24,7 @@ export default function App() {
   useEffect(() =>{
 
     dispatch(getUser())
+    dispatch(getAllMessages())
 
   },[])
 
