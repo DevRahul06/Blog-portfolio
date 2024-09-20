@@ -16,6 +16,8 @@ import { getUser } from "./store/slices/userSlice";
 
 import "./App.css"
 import { getAllMessages } from "./store/slices/messageSlice";
+import { getAllTimeline } from "./store/slices/timelineslice";
+import { getAllSkills } from "./store/slices/skillsSlice";
 
 export default function App() {
 
@@ -25,6 +27,8 @@ export default function App() {
 
     dispatch(getUser())
     dispatch(getAllMessages())
+    dispatch(getAllTimeline())
+    dispatch(getAllSkills())
 
   },[])
 
