@@ -18,6 +18,8 @@ import "./App.css"
 import { getAllMessages } from "./store/slices/messageSlice";
 import { getAllTimeline } from "./store/slices/timelineslice";
 import { getAllSkills } from "./store/slices/skillsSlice";
+import { getAllSoftware } from "./store/slices/softwareSlice";
+import { getAllBlogs } from "./store/slices/blogSlice";
 
 export default function App() {
 
@@ -29,6 +31,8 @@ export default function App() {
     dispatch(getAllMessages())
     dispatch(getAllTimeline())
     dispatch(getAllSkills())
+    dispatch(getAllSoftware())
+    dispatch(getAllBlogs())
 
   },[])
 

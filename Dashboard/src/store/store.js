@@ -4,6 +4,8 @@ import  forgotResetPasswordReducer from "./slices/forgotResetPasswordSlice"
 import messageReducer from "./slices/messageSlice";
 import timelineReducer from "./slices/timelineslice";
 import skillsReducer from "./slices/skillsSlice";
+import softwareReducer from "./slices/softwareSlice";
+import blogReducer from "./slices/blogSlice";
 
 
 export const store = configureStore({
@@ -13,6 +15,8 @@ export const store = configureStore({
         messages:messageReducer,
         timeline:timelineReducer,
         skills : skillsReducer,
+        software: softwareReducer,
+        blogs:blogReducer,
         
     }
 })

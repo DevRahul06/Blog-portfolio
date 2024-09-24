@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import crypto from 'crypto'
+import crypto from "crypto";
 
 const userSchema = new mongoose.Schema({
   fullName: {
@@ -46,12 +46,11 @@ const userSchema = new mongoose.Schema({
       required: true,
     },
   },
-  portfolioURL: {type: String,
-    required: [false, "Portfolio URL Required!"],},
-  instagramURL: {type: String,},
-  twitterURL: {type: String,},
-  linkedInURL: {type: String,},
-  facebookURL: {type: String,},
+  portfolioURL: { type: String, required: [false, "Portfolio URL Required!"] },
+  instagramURL: { type: String },
+  twitterURL: { type: String },
+  linkedInURL: { type: String },
+  facebookURL: { type: String },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 });

@@ -119,17 +119,17 @@ const HomePage = () => {
               <TooltipTrigger asChild>
                 <Link
                   className={`flex h-9 w-9 items-center justify-center rounded-lg ${
-                    active === "Add Uses"
+                    active === "Add Software"
                       ? "text-accent-foreground bg-accent"
                       : "text-muted-foreground"
                   }  transition-colors hover:text-foreground md:h-8 md:w-8`}
-                  onClick={() => setActive("Add Uses")}
+                  onClick={() => setActive("Add Software")}
                 >
                   <LayoutGrid className="h-5 w-5" />
-                  <span className="sr-only">Add Uses</span>
+                  <span className="sr-only">Add Software</span>
                 </Link>
               </TooltipTrigger>
-              <TooltipContent side="right">Add Uses</TooltipContent>
+              <TooltipContent side="right">Add Software</TooltipContent>
             </Tooltip>
           </TooltipProvider>
           <TooltipProvider>
@@ -256,14 +256,14 @@ const HomePage = () => {
               </Link>
               <Link
                 className={`flex items-center gap-4 px-2.5 ${
-                  active === "Add Uses"
+                  active === "Add Software"
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground "
                 }`}
-                onClick={() => setActive("Add Uses")}
+                onClick={() => setActive("Add Software")}
               >
                 <LayoutGrid className="h-5 w-5" />
-                Add Uses
+                Add Software
               </Link>
               <Link
                 className={`flex items-center gap-4 px-2.5 ${
@@ -333,7 +333,7 @@ const HomePage = () => {
           case "Add Skill":
             return <AddSkills />;
             break;
-          case "Add Uses":
+          case "Add Software":
             return <AddSoftware />;
             break;
           case "Add Timeline":

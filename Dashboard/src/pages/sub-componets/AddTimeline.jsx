@@ -41,15 +41,15 @@ export default function AddTimeline() {
 
     if (message) {
       toast.success(message);
-      dispatch(resettimelineslice())
-      dispatch(getAllTimeline())
+      dispatch(resettimelineslice());
+      dispatch(getAllTimeline());
     }
   }, [dispatch, error, message, loading]);
 
   return (
     <>
       <div className="flex justify-center items-center min-h-[80vh] sm:gap-4 sm:py-4 sm:pl-14">
-        <form className="w-[100%] px-5 md:w-[650px]">
+        <form className="w-[100%] px-5 md:w-[950px]">
           <div className="space y-12">
             <div className="border-b border-x-gray-900/10 pb-10">
               <h2 className="font-semibold leading-7 text-gray-900 text-3xl text-center">
@@ -137,7 +137,11 @@ export default function AddTimeline() {
           {loading ? (
             <LoadingButton content={"Add New Timeline"} />
           ) : (
-            <Button type="submit" onClick={handleSubmit} className="w-full">
+            <Button
+              type="submit"
+              onClick={handleSubmit}
+              className="rounded-md mt-5 w-full bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
               Add Timeline
             </Button>
           )}
