@@ -59,6 +59,22 @@ const skillsSlice = createSlice({
       state.error = action.payload;
     },
 
+    updateSkillsRequest(state, action) {
+      state.loading = true;
+      state.message = null;
+      state.error = null;
+    },
+    updateSkillsSuccess(state, action) {
+      state.loading = false;
+      state.message = action.payload;
+      state.error = null;
+    },
+    updateSkillsFiald(state, action) {
+      state.loading = false;
+      state.message = null;
+      state.error = action.payload;
+    },
+
     resetSkillSlice(state, action) {
       state.loading = false;
       state.skills = state.skills;
@@ -118,12 +134,28 @@ export const deleteSkills = (id) => async (dispatch) => {
       `http://localhost:4000/api/v1/skills/delete/${id}`,
       { withCredentials: true }
     );
-    dispatch(skillsSlice.actions.deleteSkillsSuccess(data.timelines));
+    dispatch(skillsSlice.actions.deleteSkillsSuccess(data.message));
     dispatch(skillsSlice.actions.clearAllErrors());
   } catch (error) {
     dispatch(
       skillsSlice.actions.deleteSkillsFiald(error.response.data.message)
     );
+  }
+};
+
+export const updateSkills = (id, proficiency) => async (dispatch) => {
+  dispatch(skillsSlice.actions.updateSkillsRequest());
+
+  try {
+    const response = await axios.put(
+      `http://localhost:4000/api/v1/skills/update/${id}`,
+      { proficiency },
+      { withCredentials: true, headers: { "Content-Type": "application/json" } }
+    );
+    dispatch(skillsSlice.actions.updateSkillsSuccess(response.data.message));
+    dispatch(skillsSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(skillsSlice.actions.updateSkillsFiald(error.response.data.message))
   }
 };
 

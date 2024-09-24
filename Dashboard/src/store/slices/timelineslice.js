@@ -94,11 +94,11 @@ export const deleteTimeline = (id) => async (dispatch) => {
   dispatch(timelineslice.actions.deleteTimelineRequest());
 
   try {
-    const { data } = await axios.delete(
+    const response = await axios.delete(
       `http://localhost:4000/api/v1/timeline/delete/${id}`,
       { withCredentials: true }
     );
-    dispatch(timelineslice.actions.deleteTimelineSuccess(data.timelines));
+    dispatch(timelineslice.actions.deleteTimelineSuccess(response.data.message));
     dispatch(timelineslice.actions.clearAllErrors());
   } catch (error) {
     dispatch(

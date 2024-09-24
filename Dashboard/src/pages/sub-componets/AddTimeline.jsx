@@ -102,7 +102,7 @@ export default function AddTimeline() {
                   <div className="mt-1">
                     <div className="flex rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                       <Input
-                        type="date"
+                        type="Text"
                         placeholder="Starting Date"
                         value={from}
                         onChange={(e) => setFrom(e.target.value)}
@@ -121,7 +121,7 @@ export default function AddTimeline() {
                   <div className="mt-1">
                     <div className="flex rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                       <Input
-                        type="Date"
+                        type="text"
                         placeholder="Ending Date"
                         value={to}
                         onChange={(e) => setTo(e.target.value)}
