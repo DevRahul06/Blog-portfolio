@@ -8,7 +8,6 @@ const blogSlice = createSlice({
     loading: false,
     error: null,
     message: null,
-    blog: {},
   },
 
   reducers: {
@@ -38,7 +37,8 @@ const blogSlice = createSlice({
     addNewBlogSuccess(state, action) {
       state.error = null;
       state.loading = false;
-      state.message = action.payload;
+      state.message = "Blog added successfully!";
+      state.blogs = [action.payload, ...state.blogs]
     },
     addNewBlogFailed(state, action) {
       state.error = action.payload;
@@ -64,28 +64,24 @@ const blogSlice = createSlice({
       state.error = action.payload;
     },
 
-    getBlogRequest(state, action) {
-      state.loading = true;
-      state.blog = {};
-      state.error = null;
-    },
 
-    getBlogSuccess(state, action) {
-      state.loading = false;
-      state.blog = action.payload;
-      state.error = null;
-    },
-
-    getBlogFailed(state, action) {
-      state.loading = false;
-      state.blog = state.blog;
-      state.error = action.payload;
-    },
 
     updateBlogRequest(state, action) {
       state.loading = true;
       state.error = null;
       state.message = null;
+    },
+
+    updateBlogSuccess(state, action) {
+      state.loading = false;
+      state.message = action.payload;
+      state.error = null;
+    },
+
+    updateBlogFaild(state, action) {
+      state.loading = false;
+      state.message = null;
+      state.error = action.payload;
     },
 
     resetBlogSlice(state, action) {
@@ -110,7 +106,10 @@ export const getAllBlogs = () => async (dispatch) => {
       "http://localhost:4000/api/v1/blog/getAll",
       { withCredentials: true }
     );
-    dispatch(blogSlice.actions.getAllBlogsSuccess(data.blogs));
+
+    const reversedBlogs = data.blogs.reverse();
+
+    dispatch(blogSlice.actions.getAllBlogsSuccess(reversedBlogs));
     dispatch(blogSlice.actions.clearAllBlogError());
   } catch (error) {
     dispatch(blogSlice.actions.getAllBlogsFailed(error.response.data.message));
@@ -151,6 +150,25 @@ export const deleteBlog = (id) => async (dispatch) => {
     dispatch(blogSlice.actions.deleteBlogFaild(error.response.data.message));
   }
 };
+
+
+export const updateBlog = (id, newData) => async (dispatch) =>{
+
+  dispatch(blogSlice.actions.updateBlogRequest());
+
+  try {
+    const { data } = await axios.put(
+      `http://localhost:4000/api/v1/blog/update/${id}`,
+      newData,
+      { withCredentials: true , headers:{"Content-Type": "multipart/form-data"}}
+    );
+    dispatch(blogSlice.actions.updateBlogSuccess(data.message));
+    dispatch(blogSlice.actions.clearAllBlogError());
+  } catch (error) {
+    dispatch(blogSlice.actions.updateBlogFaild(error.response.data.message));
+  }
+
+}
 
 export const clearAllBlogErros = () => (dispatch) => {
   dispatch(blogSlice.actions.clearAllBlogError());

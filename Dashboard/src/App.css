@@ -4,14 +4,15 @@
   box-sizing: border-box;
 }
 ::-webkit-scrollbar {
+  border-radius: 5px;
   width: 15px;
 }
 ::-webkit-scrollbar-track {
   background: #d1e5ff;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(#642bff, #ff22e6);
-  border-radius: 7px;
+  background: #264653;
+  border-radius: 5px;
 }
 .avatar-update-btn::file-selector-button {
   width: 100%;

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useSelector } from "react-redux";
 import { Textarea } from "@/components/ui/textarea";
-import { Link } from "react-router-dom";
+
 
 export default function Profile() {
   const { user } = useSelector((state) => state.user);

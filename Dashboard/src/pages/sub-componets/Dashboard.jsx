@@ -16,6 +16,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import {
   clearAllSoftwareErrors,
@@ -41,6 +52,19 @@ export default function Dashboard() {
   const { timeline } = useSelector((state) => state.timeline);
 
   const [appId, setAppId] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [blogsPerPage] = useState(5);
+
+  const totalPages = Math.ceil(blogs.length / blogsPerPage);
+
+  
+  const indexOfLastBlog = currentPage * blogsPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const handleDeleteSoftware = (id) => {
     setAppId(id);
@@ -51,7 +75,6 @@ export default function Dashboard() {
     if (error) {
       toast.error(appError);
       dispatch(clearAllSoftwareErrors());
-
     }
     if (message) {
       toast.success(message);
@@ -126,17 +149,17 @@ export default function Dashboard() {
                           <TableHead className="hidden md:table-cell">
                             Author
                           </TableHead>
-                          <TableHead className="md:table-cell">
+                          <TableHead className="md:table-cell text-center">
                             Update
                           </TableHead>
-                          <TableHead className="text-right">Visit</TableHead>
+                          <TableHead className="text-center">Visit</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {blogs && blogs.length > 0 ? (
-                          blogs.map((ele) => {
+                        {currentBlogs && currentBlogs.length > 0 ? (
+                          currentBlogs.map((ele) => {
                             return (
-                              <TableRow className="bg-accent" key={ele._id}>
+                              <TableRow className="" key={ele._id}>
                                 <TableCell>
                                   <div className="font-semibold">
                                     {ele.title}
@@ -148,14 +171,14 @@ export default function Dashboard() {
                                 <TableCell className="hidden md:table-cell">
                                   {ele.author}
                                 </TableCell>
-                                <TableCell>
+                                <TableCell className="text-center">
                                   <Link to={`/update/blog/${ele._id}`}>
                                     <Button>Update</Button>
                                   </Link>
                                 </TableCell>
-                                <TableCell className="text-right">
+                                <TableCell className="text-center">
                                   <Link
-                                    to={ele.blogLink ? `${ele.blogLink}` : ""}
+                                    to={`/view/blog/${ele._id}`}
                                   >
                                     <Button>View</Button>
                                   </Link>
@@ -172,6 +195,45 @@ export default function Dashboard() {
                         )}
                       </TableBody>
                     </Table>
+                    <Pagination className="mt-4 flex justify-end space-x-2">
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious
+                            href="#"
+                            onClick={() =>
+                              handlePageChange(Math.max(1, currentPage - 1))
+                            }
+                          />
+                        </PaginationItem>
+
+                        {/* Render page numbers */}
+                        {[...Array(totalPages)].map((_, index) => (
+                          <PaginationItem key={index + 1}>
+                            <PaginationLink
+                              href="#"
+                              isActive={currentPage === index + 1}
+                              onClick={() => handlePageChange(index + 1)}
+                            >
+                              {index + 1}
+                            </PaginationLink>
+                          </PaginationItem>
+                        ))}
+
+                        <PaginationItem>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationNext
+                            href="#"
+                            onClick={() =>
+                              handlePageChange(
+                                Math.min(totalPages, currentPage + 1)
+                              )
+                            }
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -238,7 +300,7 @@ export default function Dashboard() {
                                   />
                                 </TableCell>
                                 <TableCell>
-                                {loading && appId === ele._id ? (
+                                  {loading && appId === ele._id ? (
                                     <LoadingButton
                                       content={"Deleting"}
                                       width={"w-fit"}
@@ -250,7 +312,8 @@ export default function Dashboard() {
                                       }
                                     >
                                       Delete
-                                    </Button>)}
+                                    </Button>
+                                  )}
                                 </TableCell>
                               </TableRow>
                             );

@@ -1,11 +1,12 @@
+import { useRef } from "react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import LoadingButton from "./LoadingButton";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import {
   addNewBlog,
   clearAllBlogErros,
@@ -21,6 +22,8 @@ import {
 } from "@/components/ui/select";
 
 export default function AddBlog() {
+  const quillRef = useRef(null);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
@@ -95,20 +98,19 @@ export default function AddBlog() {
                     </div>
                   </div>
                 </div>
+
                 <div className="w-full sm:col-span-4">
                   <label className="block text-sm font-medium leading-6 text-gray-900">
                     Description
                   </label>
-                  <div className="mt-2">
-                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                      <Textarea
-                        placeholder="Blog Details ....."
-                        value={description}
-                        rows="8"
-                        onChange={(e) => setDescription(e.target.value)}
-                      />
-                    </div>
-                  </div>
+                  <ReactQuill
+                    ref={quillRef}
+                    theme="snow"
+                    placeholder="Write Somethins......"
+                    value={description}
+                    className="h-72 mb-12 bg-white"
+                    onChange={(content) => setDescription(content)}
+                  />
                 </div>
 
                 <div className="grid grid-cols-3 gap-x-10">
@@ -141,9 +143,7 @@ export default function AddBlog() {
                             <SelectValue placeholder="Select Blog Tag" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="tag">
-                              tag
-                            </SelectItem>
+                            <SelectItem value="tag">tag</SelectItem>
                             <SelectItem value="tag1">tag1</SelectItem>
                             <SelectItem value="tag2">tag2</SelectItem>
                             <SelectItem value="tag3">tag</SelectItem>

@@ -49,7 +49,7 @@ export default function ManageTimeline() {
   }, [dispatch, loading, error]);
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+    <div className="flex min-h-screen p-2 w-full flex-col ">
       <Tabs defaultValue="week">
         <TabsContent value="week">
           <Card>
@@ -72,26 +72,26 @@ export default function ManageTimeline() {
                 </TableHeader>
                 <TableBody>
                   {timeline.length > 0 ? (
-                    timeline.map((element) => {
+                    timeline.map((ele) => {
                       return (
-                        <TableRow className="bg-accent" key={element._id}>
+                        <TableRow className="bg-accent" key={ele._id}>
                           <TableCell className="font-medium">
-                            {element.title}
+                            {ele.title}
                           </TableCell>
                           <TableCell className="md:table-cell">
-                            {element.description}
+                            {ele.description}
                           </TableCell>
                           <TableCell className="md:table-cell">
-                            {element.timeline.from}
+                            {ele.timeline.from}
                           </TableCell>
                           <TableCell className="md:table-cell">
-                            {element.timeline.to ? element.timeline.to : "Present"}
+                            {ele.timeline.to ? ele.timeline.to : "Present"}
                           </TableCell>
                           <TableCell className="flex justify-end">
                             <button
                               className="border-red-600 border-2 rounded-full h-8 w-8 flex 
                               justify-center items-center text-red-600  hover:text-slate-50 hover:bg-red-600"
-                              onClick={() => handleDeleteTimeline(element._id)}
+                              onClick={() => handleDeleteTimeline(ele._id)}
                             >
                               <Trash2 className="h-5 w-5" />
                             </button>
