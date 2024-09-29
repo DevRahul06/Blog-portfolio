@@ -188,45 +188,49 @@ export default function ManageBlogs() {
                     )}
                   </TableBody>
                 </Table>
-                <Pagination className="mt-4 flex justify-end space-x-2">
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious
-                        href="#"
-                        onClick={() =>
-                          handlePageChange(Math.max(1, currentPage - 1))
-                        }
-                      />
-                    </PaginationItem>
-
-                    {/* Render page numbers */}
-                    {[...Array(totalPages)].map((_, index) => (
-                      <PaginationItem key={index + 1}>
-                        <PaginationLink
+                {currentBlogs.length > 10 ? (
+                  <Pagination className="mt-4 flex justify-end space-x-2">
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
                           href="#"
-                          isActive={currentPage === index + 1}
-                          onClick={() => handlePageChange(index + 1)}
-                        >
-                          {index + 1}
-                        </PaginationLink>
+                          onClick={() =>
+                            handlePageChange(Math.max(1, currentPage - 1))
+                          }
+                        />
                       </PaginationItem>
-                    ))}
 
-                    <PaginationItem>
-                      <PaginationEllipsis />
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationNext
-                        href="#"
-                        onClick={() =>
-                          handlePageChange(
-                            Math.min(totalPages, currentPage + 1)
-                          )
-                        }
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
+                      {/* Render page numbers */}
+                      {[...Array(totalPages)].map((_, index) => (
+                        <PaginationItem key={index + 1}>
+                          <PaginationLink
+                            href="#"
+                            isActive={currentPage === index + 1}
+                            onClick={() => handlePageChange(index + 1)}
+                          >
+                            {index + 1}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+
+                      <PaginationItem>
+                        <PaginationEllipsis />
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationNext
+                          href="#"
+                          onClick={() =>
+                            handlePageChange(
+                              Math.min(totalPages, currentPage + 1)
+                            )
+                          }
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                ) : (
+                  <div></div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>

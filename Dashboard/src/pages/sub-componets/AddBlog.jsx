@@ -160,7 +160,7 @@ export default function AddBlog() {
                     <div className="mt-2">
                       <div className="relative flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 ">
                         <Input
-                          type="text"
+                          type="date"
                           value={Postdate}
                           onChange={(e) => setPostdate(e.target.value)}
                         />
